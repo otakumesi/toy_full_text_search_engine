@@ -30,11 +30,14 @@ def load_documents(path):
 def search(docs, term):
     results = []
     for doc in docs:
-        if term in doc.title or term in doc.text:
+        if doc.title and term in doc.title:
+            results.append(doc)
+        if doc.text and term in doc.text:
             results.append(doc)
     return results
 
 
 if __name__ == '__main__':
     docs = load_documents('./data/enwiki-latest-abstract1.xml.gz')
+    search(docs, 'band')
     import ipdb; ipdb.set_trace()
