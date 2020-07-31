@@ -30,7 +30,7 @@ def load_documents(path):
 def search(docs, term):
     results = []
     for doc in docs:
-        if term in doc:
+        if term in doc.title or term in doc.text:
             results.append(doc)
     return results
 
