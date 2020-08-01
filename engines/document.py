@@ -1,6 +1,5 @@
-import logging
 from dataclasses import dataclass
-import gzip, xml.etree.ElementTree as ET
+import re, logging, gzip, xml.etree.ElementTree as ET
 
 
 @dataclass
@@ -29,10 +28,13 @@ def load_documents(path):
 
 def search(docs, term):
     results = []
+
+    # Don't do this in production, it's a security risk. term needs to be sanitized.
+    ptn = re.compile(rf'\b{term}\b', re.IGNORECASE)
     for doc in docs:
-        if doc.title and term in doc.title:
+        if doc.title and ptn.match(doc.title):
             results.append(doc)
-        if doc.text and term in doc.text:
+        if doc.text and ptn.match(doc.text):
             results.append(doc)
     return results
 
